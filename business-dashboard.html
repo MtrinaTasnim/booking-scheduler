@@ -1,0 +1,340 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#EEF0EA; --surface:#FFFFFF; --surface-alt:#F4F5EF;
+    --ink:#1F2A24; --ink-soft:#5B6960; --ink-faint:#8C978F;
+    --accent:#8A6D3B; --accent-soft:#C9A66B; --accent-wash:#F1E8D6;
+    --line:#DADFD3; --danger:#A6503A; --danger-wash:#F3E3DD;
+    --success:#4B6B4F; --success-wash:#E4EBE0;
+    --radius:10px; --shadow:0 1px 2px rgba(31,42,36,0.06),0 8px 24px rgba(31,42,36,0.06);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .app{max-width:1080px;margin:0 auto;padding:28px 20px 80px;}
+
+  .topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:20px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{width:42px;height:42px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:18px;font-weight:600;flex-shrink:0;}
+  .brand-name{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-0.01em;}
+  .brand-sub{font-size:12px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
+  .lock-pill{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-faint);}
+
+  .tabs{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--line);}
+  .tabs button{border:none;background:transparent;padding:11px 4px;margin-right:22px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-faint);cursor:pointer;position:relative;top:1px;border-bottom:2px solid transparent;}
+  .tabs button.active{color:var(--ink);border-bottom:2px solid var(--accent);}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+  .card + .card{margin-top:16px;}
+  h2.section-title{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 4px;}
+  .section-desc{color:var(--ink-soft);font-size:13.5px;margin:0 0 18px;line-height:1.5;}
+
+  label.field-label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;}
+  input[type=text], input[type=tel], input[type=number], input[type=date], input[type=time], input[type=password], select, textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:7px;font-family:'Inter',sans-serif;font-size:14px;background:var(--surface);color:var(--ink);
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--accent-soft);outline-offset:1px;border-color:var(--accent);}
+  .field{margin-bottom:14px;}
+  .field-row{display:flex;gap:12px;}
+  .field-row > *{flex:1;}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:7px;border:1px solid transparent;font-family:'Inter',sans-serif;font-weight:600;font-size:13.5px;cursor:pointer;transition:transform .08s ease;}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--ink);color:var(--paper);}
+  .btn-primary:hover{background:#141C17;}
+  .btn-outline{background:transparent;border:1px solid var(--line);color:var(--ink);}
+  .btn-outline:hover{border-color:var(--ink-soft);}
+  .btn-danger{background:var(--danger-wash);color:var(--danger);}
+  .btn-danger:hover{background:#EBD2C8;}
+  .btn-sm{padding:6px 11px;font-size:12.5px;}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+  .empty{text-align:center;padding:36px 20px;color:var(--ink-faint);}
+  .empty-title{font-family:'Fraunces',serif;font-size:16px;color:var(--ink-soft);margin-bottom:4px;}
+
+  .stamp{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;padding:4px 9px;border-radius:5px;border:1px dashed currentColor;}
+  .stamp.confirmed{color:var(--success);background:var(--success-wash);}
+  .stamp.cancelled{color:var(--danger);background:var(--danger-wash);}
+
+  .booking-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);}
+  .booking-row:last-child{border-bottom:none;}
+  .booking-date{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft);width:150px;flex-shrink:0;}
+  .booking-main{flex:1;min-width:0;}
+  .booking-service{font-weight:600;font-size:14.5px;}
+  .booking-customer{font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
+  .booking-actions{display:flex;gap:8px;flex-shrink:0;}
+
+  .day-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .day-row:last-child{border-bottom:none;}
+  .day-name{width:110px;font-weight:600;font-size:13.5px;flex-shrink:0;}
+  .day-ranges{flex:1;display:flex;flex-direction:column;gap:8px;}
+  .range-line{display:flex;align-items:center;gap:8px;}
+  .range-line input{width:120px;}
+  .toggle-closed{font-size:12px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;}
+  .icon-x{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:15px;padding:2px 6px;}
+  .icon-x:hover{color:var(--danger);}
+  .add-range{font-size:12.5px;color:var(--accent);background:none;border:none;cursor:pointer;font-weight:600;padding:0;text-align:left;}
+
+  .service-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);}
+  .service-row:last-child{border-bottom:none;}
+  .service-info{flex:1;}
+  .service-name{font-weight:600;font-size:14.5px;}
+  .service-meta{font-size:12.5px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+  .switch{position:relative;width:38px;height:22px;border-radius:999px;background:var(--line);border:none;cursor:pointer;flex-shrink:0;}
+  .switch.on{background:var(--success);}
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s ease;}
+  .switch.on::after{left:18px;}
+
+  .banner{font-size:12.5px;color:var(--ink-soft);background:var(--accent-wash);border:1px solid var(--accent-soft);border-radius:7px;padding:10px 13px;margin-bottom:18px;line-height:1.5;}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:8px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:50;}
+  .toast.show{opacity:1;}
+
+  .lock-screen{min-height:70vh;display:flex;align-items:center;justify-content:center;}
+  .lock-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 32px;max-width:340px;width:100%;text-align:center;}
+  .lock-icon{width:52px;height:52px;border-radius:50%;background:var(--accent-wash);color:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;}
+  .lock-error{color:var(--danger);font-size:12.5px;margin-top:8px;min-height:16px;}
+
+  @media(max-width:600px){
+    .booking-row{flex-wrap:wrap;}
+    .booking-date{width:auto;}
+    .day-row{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+
+<div class="app" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'scheduler-data-v1';
+const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+let data = null;
+let unlocked = false;
+let state = { adminTab:'overview' };
+
+function defaultData(){
+  return {
+    settings: { businessName: 'Cedar & Co. Studio', cancellationHours: 24, slotDuration: 30, adminPasscode: '1234' },
+    weeklyHours: { 0:[], 1:[{start:'09:00',end:'17:00'}], 2:[{start:'09:00',end:'17:00'}], 3:[{start:'09:00',end:'17:00'}], 4:[{start:'09:00',end:'17:00'}], 5:[{start:'09:00',end:'15:00'}], 6:[] },
+    services: [
+      {id:'s1', name:'Haircut & Style', duration:45, active:true},
+      {id:'s2', name:'Beard Trim', duration:20, active:true},
+      {id:'s3', name:'Color Consultation', duration:30, active:false},
+    ],
+    blocked: [], bookings: [],
+  };
+}
+
+async function loadData(){
+  try{ const res = await window.storage.get(STORAGE_KEY, true); data = JSON.parse(res.value); }
+  catch(e){ data = defaultData(); await saveData(); }
+  if(!data.settings.adminPasscode) data.settings.adminPasscode = '1234';
+}
+async function saveData(){
+  try{ await window.storage.set(STORAGE_KEY, JSON.stringify(data), true); }
+  catch(e){ console.error('save failed', e); showToast('Could not save — try again'); }
+}
+
+function uid(prefix){ return prefix + Math.random().toString(36).slice(2,9); }
+function toMinutes(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
+function formatTimeDisplay(t){ const [h,m]=t.split(':').map(Number); const period=h>=12?'PM':'AM'; let hh=h%12; if(hh===0)hh=12; return hh+':'+m.toString().padStart(2,'0')+' '+period; }
+function formatDateDisplay(dateStr){ const d=new Date(dateStr+'T00:00:00'); return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}); }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400); }
+
+function el(tag, attrs, children){
+  const e = document.createElement(tag);
+  if(attrs) for(const k in attrs){
+    if(k==='class') e.className=attrs[k];
+    else if(k==='html') e.innerHTML=attrs[k];
+    else if(k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  (children||[]).forEach(c=>{ if(c) e.appendChild(typeof c==='string'?document.createTextNode(c):c); });
+  return e;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  if(!unlocked){ app.appendChild(renderLockScreen()); return; }
+  app.appendChild(renderTopbar());
+  app.appendChild(renderAdminTabs());
+  app.appendChild(renderAdminContent());
+}
+
+function renderLockScreen(){
+  const wrap = el('div',{class:'lock-screen'});
+  const card = el('div',{class:'lock-card'});
+  card.appendChild(el('div',{class:'lock-icon'},['🔒']));
+  card.appendChild(el('h2',{class:'section-title'},['Business dashboard']));
+  card.appendChild(el('p',{class:'section-desc'},['Enter the business passcode to manage bookings, hours and services.']));
+  const input = el('input',{type:'password', placeholder:'Passcode'});
+  const err = el('div',{class:'lock-error'});
+  const tryUnlock = async ()=>{
+    if(input.value === data.settings.adminPasscode){ unlocked = true; render(); }
+    else { err.textContent = 'Incorrect passcode — try again.'; }
+  };
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') tryUnlock(); });
+  card.appendChild(el('div',{class:'field', style:'margin-top:14px;text-align:left;'},[input]));
+  card.appendChild(el('button',{class:'btn btn-primary', style:'width:100%;', onclick:tryUnlock},['Unlock']));
+  card.appendChild(err);
+  card.appendChild(el('p',{class:'section-desc', style:'margin-top:14px;font-size:11.5px;'},['Default passcode is 1234 — change it under the Policy tab once you\'re in.']));
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function renderTopbar(){
+  const bar = el('div',{class:'topbar'});
+  const brand = el('div',{class:'brand'},[
+    el('div',{class:'brand-mark'},[data.settings.businessName.charAt(0)]),
+    el('div',{},[
+      el('div',{class:'brand-name'},[data.settings.businessName]),
+      el('div',{class:'brand-sub'},['Business dashboard']),
+    ])
+  ]);
+  bar.appendChild(brand);
+  bar.appendChild(el('div',{class:'lock-pill'},['🔓 unlocked this session']));
+  return bar;
+}
+
+function renderAdminTabs(){
+  const tabs = [['overview','Bookings'],['availability','Availability'],['services','Services'],['policy','Policy']];
+  const wrap = el('div',{class:'tabs'});
+  tabs.forEach(([id,label])=>{
+    wrap.appendChild(el('button',{class: state.adminTab===id?'active':'', onclick:()=>{state.adminTab=id; render();}},[label]));
+  });
+  return wrap;
+}
+
+function renderAdminContent(){
+  const wrap = el('div',{});
+  if(state.adminTab==='overview') wrap.appendChild(renderOverview());
+  if(state.adminTab==='availability') wrap.appendChild(renderAvailability());
+  if(state.adminTab==='services') wrap.appendChild(renderServicesAdmin());
+  if(state.adminTab==='policy') wrap.appendChild(renderPolicy());
+  return wrap;
+}
+
+function renderOverview(){
+  const card = el('div',{class:'card'});
+  card.appendChild(el('h2',{class:'section-title'},['Upcoming bookings']));
+  card.appendChild(el('p',{class:'section-desc'},['Everything customers have booked, soonest first.']));
+  const upcoming = data.bookings.filter(b=>b.status==='confirmed').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  if(upcoming.length===0){
+    card.appendChild(el('div',{class:'empty'},[el('div',{class:'empty-title'},['No bookings yet']), el('div',{},['Once a customer books a slot, it will show up here.'])]));
+    return card;
+  }
+  upcoming.forEach(b=>{
+    const svc = data.services.find(s=>s.id===b.serviceId);
+    card.appendChild(el('div',{class:'booking-row'},[
+      el('div',{class:'booking-date'},[formatDateDisplay(b.date)+' · '+formatTimeDisplay(b.time)]),
+      el('div',{class:'booking-main'},[
+        el('div',{class:'booking-service'},[svc?svc.name:'(removed service)']),
+        el('div',{class:'booking-customer'},[b.customerName+' · '+b.customerPhone]),
+      ]),
+      el('div',{class:'booking-actions'},[
+        el('button',{class:'btn btn-danger btn-sm', onclick: async ()=>{ b.status='cancelled'; await saveData(); showToast('Booking cancelled'); render(); }},['Cancel']),
+      ])
+    ]));
+  });
+  return card;
+}
+
+function renderAvailability(){
+  const wrap = el('div',{});
+  const card = el('div',{class:'card'});
+  card.appendChild(el('h2',{class:'section-title'},['Weekly hours']));
+  card.appendChild(el('p',{class:'section-desc'},['Set the windows when customers can book. Leave a day empty to stay closed.']));
+  for(let d=0; d<7; d++){
+    const ranges = data.weeklyHours[d] || [];
+    const rangesWrap = el('div',{class:'day-ranges'});
+    if(ranges.length===0){ rangesWrap.appendChild(el('span',{class:'toggle-closed'},['Closed'])); }
+    else{
+      ranges.forEach((r,idx)=>{
+        const line = el('div',{class:'range-line'});
+        line.appendChild(el('input',{type:'time', value:r.start, onchange:(e)=>{r.start=e.target.value; saveData();}}));
+        line.appendChild(el('span',{},['to']));
+        line.appendChild(el('input',{type:'time', value:r.end, onchange:(e)=>{r.end=e.target.value; saveData();}}));
+        line.appendChild(el('button',{class:'icon-x', onclick: async ()=>{ ranges.splice(idx,1); await saveData(); render(); }},['✕']));
+        rangesWrap.appendChild(line);
+      });
+    }
+    rangesWrap.appendChild(el('button',{class:'add-range', onclick: async ()=>{ ranges.push({start:'09:00',end:'17:00'}); data.weeklyHours[d]=ranges; await saveData(); render(); }},[ranges.length?'+ add another window':'+ open this day']));
+    card.appendChild(el('div',{class:'day-row'},[el('div',{class:'day-name'},[DAY_NAMES[d]]), rangesWrap]));
+  }
+  wrap.appendChild(card);
+
+  const blockCard = el('div',{class:'card'});
+  blockCard.appendChild(el('h2',{class:'section-title'},['Blocked dates & times']));
+  blockCard.appendChild(el('p',{class:'section-desc'},['Close a whole day, or a single slot on a date you\'re otherwise open.']));
+  const dateInput = el('input',{type:'date'});
+  const timeInput = el('input',{type:'time'});
+  const form = el('div',{class:'field-row'},[
+    el('div',{class:'field'},[el('label',{class:'field-label'},['Date']), dateInput]),
+    el('div',{class:'field'},[el('label',{class:'field-label'},['Time (optional)']), timeInput]),
+  ]);
+  blockCard.appendChild(form);
+  blockCard.appendChild(el('button',{class:'btn btn-outline', onclick: async ()=>{
+    if(!dateInput.value){ showToast('Pick a date first'); return; }
+    data.blocked.push({date:dateInput.value, time:timeInput.value||null});
+    await saveData(); render();
+  }},['+ Add block']));
+  if(data.blocked.length){
+    const list = el('div',{style:'margin-top:14px;'});
+    data.blocked.slice().sort((a,b)=>a.date.localeCompare(b.date)).forEach(b=>{
+      const idx = data.blocked.indexOf(b);
+      list.appendChild(el('div',{class:'booking-row'},[
+        el('div',{class:'booking-date'},[formatDateDisplay(b.date)]),
+        el('div',{class:'booking-main'},[b.time?formatTimeDisplay(b.time):'Full day closed']),
+        el('div',{class:'booking-actions'},[el('button',{class:'btn btn-outline btn-sm', onclick: async ()=>{ data.blocked.splice(idx,1); await saveData(); render(); }},['Remove'])])
+      ]));
+    });
+    blockCard.appendChild(list);
+  }
+  wrap.appendChild(blockCard);
+  return wrap;
+}
+
+function renderServicesAdmin(){
+  const card = el('div',{class:'card'});
+  card.appendChild(el('h2',{class:'section-title'},['Services']));
+  card.appendChild(el('p',{class:'section-desc'},['Turn a service off to hide it from customers without deleting its history.']));
+  data.services.forEach(svc=>{
+    card.appendChild(el('div',{class:'service-row'},[
+      el('div',{class:'service-info'},[el('div',{class:'service-name'},[svc.name]), el('div',{class:'service-meta'},[svc.duration+' min'])]),
+      el('button',{class:'switch'+(svc.active?' on':''), onclick: async ()=>{ svc.active=!svc.active; await saveData(); render(); }}),
+      el('button',{class:'btn btn-outline btn-sm', onclick: async ()=>{ data.services=data.services.filter(s=>s.id!==svc.id); await saveData(); render(); }},['Delete']),
+    ]));
+  });
+  const nameInput = el('input',{type:'text', placeholder:'e.g. Deep Tissue Massage'});
+  const durInput = el('input',{type:'number', placeholder:'Minutes', min:'5', step:'5'});
+  card.appendChild(el('div',{class:'field-row', style:'margin-top:16px;'},[
+    el('div',{class:'field'},[el('label',{class:'field-label'},['New service name']), nameInput]),
+    el('div',{class:'field'},[el('label',{class:'field-label'},['Duration']), durInput]),
+  ]));
+  card.appendChild(el('button',{class:'btn btn-primary', onclick: async ()=>{
+    const name = nameInput.value.trim(); const dur = parseInt(durInput.value,10);
+    if(!name || !dur){ showToast('Add a name and duration'); return; }
+    data.services.push({id:uid('s'), name, duration:dur, active:true});
+    await saveData(); render();
+  }},['+ Add service']));
+  return card;
+}
+
+function renderPolicy(){
+  const card = el('div',{class:'card'});
+  card.appendChild(el('h2',{class:'section-title'},['Business & cancellation policy']));
+  card.appendChild(el('p',{class:'section-desc'},['Customers can cancel or reschedule on their own only if they\'re outside this window.']));
+  card.appendChild(el('div',{class:'field'},[el('label',{class:'field-label'},['Business name']), el('input',{type:'text', value:data.settings.businessName, onchange:(e)=>{data.settings.businessName=e.target.value||'Untitled business'; saveData(); render();}})]));
+  card.appendChild(el('div',{class:'field-row'},[
+    el('div',{class:'field'},[el('label',{class:'field-label'},['Slot spacing (minutes)']), el('input',{type:'number', min:'5', step:'5', value:data.settings.slotDuration, onchange:(e)=>{data.settings.slotDuration=parseInt(e.target.value,10)||30; saveData();}})]),
+    el('div',{class:'field'},[el('label',{class:'field-label'},['Cancellation window (hours)']), el('input',{type:'number', min:'0', value:data.settings.cancellationHours, onchange:(e)=>{data.settings.cancellationHours=parseInt(e.target.value,10)||0; saveData();}})]),
+  ]));
+  card.appendChild(el('div',{class:'field'},[el('label',{class:'field-label'},['Admin passcode']), el('input',{type:'text', value:data.settings.adminPasscode, onchange:(e)=>{data.settings.adminPasscode=e.target.value||'1234'; saveData();}})]));
+  card.appendChild(el('p',{class:'section-desc', style:'margin-top:4px;'},['This passcode is only a light front-door — for real protection against a determined visitor, this page would need proper account-based login.']));
+  return card;
+}
+
+(async function init(){ await loadData(); render(); })();
+</script>
